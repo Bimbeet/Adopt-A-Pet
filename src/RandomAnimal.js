@@ -7,7 +7,7 @@ class RandomAnimal extends React.Component {
         this.state = {
             token: '',
             newAnimalArr: [],
-            // image: [],
+            image: '',
             randomLog: 30,
             randomAnimal: '',
             gotAnimal: false,
@@ -75,40 +75,44 @@ class RandomAnimal extends React.Component {
 
         }
 
-
-        // if (this.state.randomAnimal.photos) {
-        //     const images = this.state.randomAnimal.photos.map((photo) => {
-        //         return photo.medium
-        //     })
-        //     this.setState({ image: images[0] }, () => { images.shift() })
+        console.log(this.state.randomAnimal.photos)
+        if (this.state.randomAnimal.photos[0]) {
+            console.log(this.state.randomAnimal.photos[0])
+            console.log(this.state.randomAnimal.photos[0].medium)
+            // const images = this.state.randomAnimal.photos.map((photo) => {
+            //     return photo.medium
+            // })
+            this.setState({ image: this.state.randomAnimal.photos[0].medium })
             
-        //     // Add functionality to change images
-        // } else {
-        //     this.setState({ image: [] })
-        // }
+            // Add functionality to change images
+        } else {
+            this.setState({ image: '' })
+        }
     }
     newAnimal = () => {
         this.setState({
-            gotAnimal: false,
+            gotAnimal: false
         }, this.allOutput())
     }
     render() {
         console.log(this.state)
+        let animal = this.state.randomAnimal
         return (
             <div>
                 {((this.state.newAnimalArr.length !== 0) && (this.state.randomAnimal)) ?
                     <div>
-                        <h1>{this.state.randomAnimal.name}</h1>
-                        <h2>{this.state.randomAnimal.gender} {this.state.randomAnimal.species}</h2>
-                        <h2>{this.state.randomAnimal.colors.primary} {this.state.randomAnimal.age} {this.state.randomAnimal.breeds.primary}</h2>
-                        {(this.state.randomAnimal.photos) ? <img src={this.state.randomAnimal.photos[0].medium} alt='No pictures listed'/> : 'No Photo Available'}
-                        <h3>{this.state.randomAnimal.contact.address.city} {this.state.randomAnimal.contact.address.state}</h3>
-                        <a href={this.state.randomAnimal.url}>Interested? Learn more here!</a>
-                        <h3>House Trained: {(this.state.randomAnimal.attributes.house_trained) ? 'Yes' : 'No'}</h3>
-                        <h3>Needs shots: {(this.state.randomAnimal.attributes.shots_current) ? 'No' : 'Yes'}</h3>
-                        <h3>Spayed/Neutered: {(this.state.randomAnimal.attributes.spayed_neutered) ? 'Yes' : 'No'}</h3>
-                        <h3>Special Needs: {(this.state.randomAnimal.attributes.special_needs) ? 'Yes' : 'No'}</h3>
-                        {(this.state.randomAnimal.attributes.declawed !== null) ? <h3>Declawed: {(this.state.randomAnimal.attributes.declawed) ? 'Yes' : 'No'}</h3> : ''}
+                        <h1>{animal.name}</h1>
+                        <h2>{animal.gender} {animal.species}</h2>
+                        <h2>{animal.colors.primary} {animal.age} {animal.breeds.primary}</h2>
+                        {/* <img src={this.state.image} alt='No Picture Available' /> */}
+                        <img src={animal.photos.length !== 0 ? animal.photos[0].medium : ''} alt='No Picture Available' />
+                        <h3>{animal.contact.address.city} {animal.contact.address.state}</h3>
+                        <a href={animal.url}>Interested? Learn more here!</a>
+                        <h3>House Trained: {(animal.attributes.house_trained) ? 'Yes' : 'No'}</h3>
+                        <h3>Needs shots: {(animal.attributes.shots_current) ? 'No' : 'Yes'}</h3>
+                        <h3>Spayed/Neutered: {(animal.attributes.spayed_neutered) ? 'Yes' : 'No'}</h3>
+                        <h3>Special Needs: {(animal.attributes.special_needs) ? 'Yes' : 'No'}</h3>
+                        {(animal.attributes.declawed !== null) ? <h3>Declawed: {(animal.attributes.declawed) ? 'Yes' : 'No'}</h3> : ''}
                         <button onClick={this.newAnimal}>New Animal</button>
                     </div>
                     :
