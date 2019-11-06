@@ -6,6 +6,7 @@ import {
   Link
 } from 'react-router-dom';
 import axios from 'axios';
+import Home from './Home';
 import RandomAnimal from './RandomAnimal';
 import OrgFinder from './OrgFinder'
 
@@ -42,7 +43,7 @@ class App extends React.Component {
           </nav>
         </header>
         <div className="App">
-          <Route exact path="/" />
+          <Route exact path="/" component={Home} />
           <Route path="/randomanimal" render={(props) => <RandomAnimal {...props} token={this.state.token} />} />
           <Route path="/orgfinder" render={(props) => <OrgFinder {...props} token={this.state.token} />} />
         </div>

@@ -7,7 +7,7 @@ class RandomAnimal extends React.Component {
         this.state = {
             newAnimalArr: [],
             image: '',
-            randomLog: 30,
+            randomLog: -1,
             randomAnimal: '',
             gotAnimal: false,
         }
@@ -35,6 +35,9 @@ class RandomAnimal extends React.Component {
             url: 'https://api.petfinder.com/v2/animals',
             headers: {
                 'Authorization': `Bearer ${this.props.token}`
+            },
+            params: {
+                'limit': 100
             }
 
         })
@@ -55,7 +58,7 @@ class RandomAnimal extends React.Component {
         if (this.state.newAnimalArr.length !== 0) {
             let randomGen = Math.floor(Math.random() * this.state.newAnimalArr.length)
             this.setState({ randomLog: randomGen }, () => {
-                if ((this.state.randomLog !== 30) && (!this.state.gotAnimal)) {
+                if ((this.state.randomLog !== -1) && (!this.state.gotAnimal)) {
                     let copiedArr = this.state.newAnimalArr.slice()
                     copiedArr.splice(this.state.randomLog, 1)
 
