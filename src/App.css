@@ -19,6 +19,7 @@ header h1 {
   background-color: rgb(82, 39, 5);
   font-family: 'Passion One', cursive;
   font-size: 320%;
+  font-weight: 200;
 }
 nav {
   /* width: 100%; */
@@ -52,7 +53,7 @@ nav a {
 h2 {
   margin: 10px;
 }
-.pet img {
+.pet img,.orgDisplay img {
   border: 1px solid black;
   padding: 3px;
   background-color: gray;
@@ -74,5 +75,9 @@ button {
 }
 
 .orgSwitch {
+  margin: 10px;
+}
+.orgDisplay a {
+  padding: 6px;
   margin: 10px;
 }

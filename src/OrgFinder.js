@@ -68,15 +68,18 @@ class OrgFinder extends React.Component {
             currentOrg: this.state.allOrgs[this.state.orgIndex]
         })
     }
-
+    getImage = () => {
+        if (this.state.currentOrg.photos.length !== 0) {
+            return <img src={this.state.currentOrg.photos[0].medium} alt=''/> 
+        }
+    }
     // getOrgs(){
 
     // }
     render() {
         console.log(this.state.currentOrg)
         console.log(this.state.allOrgs)
-        console.log(this.state.allOrgs.length - 1)
-        console.log(this.state.orgIndex)
+        console.log(this.state.currentOrg.photos)
         let organization = this.state.currentOrg
         // let orgAddress = organization.address
         return (
@@ -94,14 +97,15 @@ class OrgFinder extends React.Component {
                         </form>
                     </div>
                     :
-                    <div>
+                    <div className='orgDisplay'>
                         <button className='orgSwitch' onClick={this.prevOrg}>Previous</button>
                         <button className='orgSwitch' onClick={this.nextOrg}>Next</button>
                         <h1>{organization.name}</h1>
+                        {/* <h2>{organization.address.city}</h2> */}
                         {/* <h2>{orgAddress.city}, {orgAddress.state}</h2> */}
                         <a href={organization.url} >Check Petfinder listings!</a>{' '}
                         {(organization.website) ? <a href={organization.website}>Visit their site!</a> : ''}
-                        {/* {(organization.photos.length !== 0) ? <img src={organization.photos[0].medium} alt=''/> : ''} */}
+                        {(organization.photos) ? <div>{this.getImage()}</div> : ''}
                         <h2>Email: {organization.email}</h2>
                         <h2>Phone #: {organization.phone}</h2>
                     </div>}
