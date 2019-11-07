@@ -6,6 +6,7 @@ class OrgFinder extends React.Component {
         super()
         this.state = {
             called: false,
+            failed: false,
             location: '',
             allOrgs: [],
             currentOrg: {},
@@ -33,44 +34,48 @@ class OrgFinder extends React.Component {
             .then(trueOrgs => {
                 this.setState({
                     allOrgs: trueOrgs,
-                    currentOrg: trueOrgs[0]
+                    currentOrg: trueOrgs[0],
+                    called: true,
+                    failed: false
                 })
+            })
+            .catch(() => {
+                this.setState({ failed: true })
             })
     }
     submit = (e) => {
         e.preventDefault()
-        this.setState({ called: true })
         this.callAxios()
     }
     handleChange = (e) => {
-        this.setState({ location: e.target.value})
+        this.setState({ location: e.target.value })
     }
     nextOrg = () => {
-        (this.state.orgIndex < this.state.allOrgs.length - 1) ? 
-        this.setState({
-            orgIndex: this.state.orgIndex += 1,
-            currentOrg: this.state.allOrgs[this.state.orgIndex]
-        }) : 
-        this.setState({ 
-            orgIndex: 0,
-            currentOrg: this.state.allOrgs[this.state.orgIndex]
-        })
-            
+        (this.state.orgIndex < this.state.allOrgs.length - 1) ?
+            this.setState({
+                orgIndex: this.state.orgIndex += 1,
+                currentOrg: this.state.allOrgs[this.state.orgIndex]
+            }) :
+            this.setState({
+                orgIndex: 0,
+                currentOrg: this.state.allOrgs[this.state.orgIndex]
+            })
+
     }
     prevOrg = () => {
-        (this.state.orgIndex === 0) ? 
-        this.setState({ 
-            orgIndex: (this.state.allOrgs.length - 1),
-            currentOrg: this.state.allOrgs[this.state.orgIndex]
-        }) : 
+        (this.state.orgIndex === 0) ?
             this.setState({
-            orgIndex: this.state.orgIndex -= 1,
-            currentOrg: this.state.allOrgs[this.state.orgIndex]
-        })
+                orgIndex: (this.state.allOrgs.length - 1),
+                currentOrg: this.state.allOrgs[this.state.orgIndex]
+            }) :
+            this.setState({
+                orgIndex: this.state.orgIndex -= 1,
+                currentOrg: this.state.allOrgs[this.state.orgIndex]
+            })
     }
     getImage = () => {
         if (this.state.currentOrg.photos.length !== 0) {
-            return <img src={this.state.currentOrg.photos[0].medium} alt=''/> 
+            return <img src={this.state.currentOrg.photos[0].medium} alt='' />
         }
     }
     // getOrgs(){
@@ -85,29 +90,31 @@ class OrgFinder extends React.Component {
         return (
             <div>
                 {(!this.state.called) ?
-                    <div>
+                    <div className='orgFind'>
                         <h1>Find an Adoption Organization near you!</h1>
-                        <p>Input your City, State; latitude,longitude; or postal code here</p>
+                        <p>Input your City, State; latitude, longitude; or postal code here</p>
                         <form onSubmit={this.submit}>
                             <label>
                                 Location:
-                                <input type='text' value={this.state.location} onChange={this.handleChange}/>
+                                <input type='text' value={this.state.location} onChange={this.handleChange} />
                             </label>
-                            <input type='submit' value='Submit'/>
+                            <input type='submit' value='Submit' />
                         </form>
+                        {(this.state.failed) ? <h2>Error in location, try again!</h2> : ''}
                     </div>
                     :
                     <div className='orgDisplay'>
                         <button className='orgSwitch' onClick={this.prevOrg}>Previous</button>
                         <button className='orgSwitch' onClick={this.nextOrg}>Next</button>
                         <h1>{organization.name}</h1>
-                        {/* <h2>{organization.address.city}</h2> */}
-                        {/* <h2>{orgAddress.city}, {orgAddress.state}</h2> */}
-                        <a href={organization.url} >Check Petfinder listings!</a>{' '}
-                        {(organization.website) ? <a href={organization.website}>Visit their site!</a> : ''}
+                        <h2>{organization.address.city}, {organization.address.state}</h2>
+                        <a href={organization.url} target="_blank">Check Petfinder listings!</a>{' '}
+                        {(organization.website) ? <a href={organization.website} target="_blank">Visit their site!</a> : ''}
                         {(organization.photos) ? <div>{this.getImage()}</div> : ''}
-                        <h2>Email: {organization.email}</h2>
-                        <h2>Phone #: {organization.phone}</h2>
+                        {(organization.mission_statement) ? <p>{organization.mission_statement}</p> : ''}
+                        {(organization.adoption.policy) ? <p>{organization.adoption.policy}</p> : ''}
+                        {(organization.email) ? <h2>Email: {organization.email}</h2> : ''}
+                        {(organization.phone) ? <h2>Phone #: {organization.phone}</h2> : ''}
                     </div>}
             </div>
         )

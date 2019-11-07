@@ -11,7 +11,7 @@ import RandomAnimal from './RandomAnimal';
 import OrgFinder from './OrgFinder'
 
 class App extends React.Component {
-  constructor(){
+  constructor() {
     super()
     this.state = {
       token: ''
@@ -34,8 +34,10 @@ class App extends React.Component {
     return (
       <Router basename={window.location.pathname}>
         <header>
-          <h1>Adopt-A-Pal</h1>
-          <div></div>
+          <div>
+            <h1>Adopt-A-Pal</h1>
+            <a href='https://www.petfinder.com/' target="_blank"><img src='https://www.underconsideration.com/brandnew/archives/petfinder_monogram.png' alt='' /></a>
+          </div>
           <nav>
             <Link to="/">Home</Link>{' '}
             <Link to="/randomanimal">Random Pet</Link>{' '}
@@ -51,5 +53,5 @@ class App extends React.Component {
     )
   }
 }
-      
-      export default App;
+
+export default App;
