@@ -84,7 +84,6 @@ class OrgFinder extends React.Component {
     render() {
         console.log(this.state.currentOrg)
         console.log(this.state.allOrgs)
-        console.log(this.state.currentOrg.photos)
         let organization = this.state.currentOrg
         // let orgAddress = organization.address
         return (
@@ -108,8 +107,8 @@ class OrgFinder extends React.Component {
                         <button className='orgSwitch' onClick={this.nextOrg}>Next</button>
                         <h1>{organization.name}</h1>
                         <h2>{organization.address.city}, {organization.address.state}</h2>
-                        <a href={organization.url} target="_blank">Check Petfinder listings!</a>{' '}
-                        {(organization.website) ? <a href={organization.website} target="_blank">Visit their site!</a> : ''}
+                        <a href={organization.url} target="_blank" rel="noopener noreferrer">Check Petfinder listings!</a>{' '}
+                        {(organization.website) ? <a href={organization.website} target="_blank" rel="noopener noreferrer">Visit their site!</a> : ''}
                         {(organization.photos) ? <div>{this.getImage()}</div> : ''}
                         {(organization.mission_statement) ? <p>{organization.mission_statement}</p> : ''}
                         {(organization.adoption.policy) ? <p>{organization.adoption.policy}</p> : ''}

@@ -109,7 +109,7 @@ class RandomAnimal extends React.Component {
                         <h2>{animal.colors.primary} {animal.age} {animal.breeds.primary}</h2>
                         <img src={animal.photos.length !== 0 ? animal.photos[0].medium : ''} alt='No Picture Available' />
                         <h2>{animal.contact.address.city}, {animal.contact.address.state}</h2>
-                        <a href={animal.url} target="_blank">Interested? Learn more here!</a>
+                        <a href={animal.url} target="_blank" rel="noopener noreferrer">Interested? Learn more here!</a>
                         <div className='info'>
                             <h3>House Trained: {(animal.attributes.house_trained) ? 'Yes' : 'No'}</h3>
                             <h3>Needs shots: {(animal.attributes.shots_current) ? 'No' : 'Yes'}</h3>
@@ -127,7 +127,7 @@ class RandomAnimal extends React.Component {
                                 <input type='text' value={this.state.location} onChange={this.changeLocation} />
                             </label>
                             <input type='submit' value='Submit' />
-                            <p>Type</p>
+                            <p>This accepts quite a few different inputs, but is specific. Try dog / cat if your input fails.</p>
                             <label>
                                 Type:
                                 <input type='text' value={this.state.type} onChange={this.changeType} />

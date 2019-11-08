@@ -1,14 +1,14 @@
 import React from 'react';
 import './App.css';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Link
 } from 'react-router-dom';
 import axios from 'axios';
 import Home from './Home';
 import RandomAnimal from './RandomAnimal';
-import OrgFinder from './OrgFinder'
+import OrgFinder from './OrgFinder';
 
 class App extends React.Component {
   constructor() {
@@ -32,11 +32,11 @@ class App extends React.Component {
   }
   render() {
     return (
-      <Router basename={window.location.pathname}>
+      <Router basename='/'>
         <header>
           <div>
             <h1>Adopt-A-Pal</h1>
-            <a href='https://www.petfinder.com/' target="_blank"><img src='https://www.underconsideration.com/brandnew/archives/petfinder_monogram.png' alt='' /></a>
+            <a href='https://www.petfinder.com/' target="_blank" rel="noopener noreferrer"><img src='https://www.underconsideration.com/brandnew/archives/petfinder_monogram.png' alt='' /></a>
           </div>
           <nav>
             <Link to="/">Home</Link>{' '}
@@ -45,9 +45,14 @@ class App extends React.Component {
           </nav>
         </header>
         <div className="App">
-          <Route exact path="/" component={Home} />
-          <Route path="/randomanimal" render={(props) => <RandomAnimal {...props} token={this.state.token} />} />
-          <Route path="/orgfinder" render={(props) => <OrgFinder {...props} token={this.state.token} />} />
+          {(this.state.token) ?
+            (<div>
+              <Route exact path="/" component={Home} />
+              <Route path="/randomanimal" render={(props) => <RandomAnimal {...props} token={this.state.token} />} />
+              <Route path="/orgfinder" render={(props) => <OrgFinder {...props} token={this.state.token} />} />
+            </div>)
+            :
+            <Route exact path="/" component={Home} />}
         </div>
       </Router>
     )
