@@ -20,9 +20,9 @@
 
 ## Main Features
 * 3 'sections' displaying different features
-* 
-* 
-* 
+* A randomizer finding adoptable animals
+* The ability to give search parameters to the randomizer
+* An Organization finder for a specified area
 
 ## Unsolved Problems
 In the organization feature, when using Next or Previous in the case where it hits the beginning or the end of the array it's using, it sometimes skips an item. (usually index 0) I think it is rendering before the index updates, or my loop is slightly off.
