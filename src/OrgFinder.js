@@ -12,8 +12,6 @@ class OrgFinder extends React.Component {
             currentOrg: {},
             orgIndex: 0
         }
-        // this.handleChange = this.handleChange.bind(this)
-        // this.submit = this.submit.bind(this)
     }
     callAxios() {
         axios({
@@ -78,14 +76,10 @@ class OrgFinder extends React.Component {
             return <img src={this.state.currentOrg.photos[0].medium} alt='' />
         }
     }
-    // getOrgs(){
-
-    // }
     render() {
         console.log(this.state.currentOrg)
         console.log(this.state.allOrgs)
         let organization = this.state.currentOrg
-        // let orgAddress = organization.address
         return (
             <div>
                 {(!this.state.called) ?

@@ -52,6 +52,7 @@ class RandomAnimal extends React.Component {
                 this.setState({ failed: true })
             })
     }
+    // Main logic for generating the random animal, and removing it from the list. Also loads the photo in a state
     allOutput() {
         console.log(this.state.newAnimalArr)
         if (this.state.newAnimalArr.length !== 0) {
@@ -76,6 +77,7 @@ class RandomAnimal extends React.Component {
             this.setState({ image: '' })
         }
     }
+    // These are methods for each search feature. Might be possible to condense?
     submit = (e) => {
         e.preventDefault()
         this.callAxios()
@@ -92,13 +94,13 @@ class RandomAnimal extends React.Component {
     changeType = (e) => {
         this.setState({ type: e.target.value })
     }
+    // The new animal button, just calls the output method again
     newAnimal = () => {
         this.setState({
             gotAnimal: false
         }, this.allOutput())
     }
     render() {
-        console.log(this.state)
         let animal = this.state.randomAnimal
         return (
             <div>
