@@ -43,41 +43,35 @@ class RandomAnimal extends React.Component {
                 this.setState({
                     newAnimalArr: midArr,
                     failed: false
+                }, () => {
+                    this.allOutput()
                 })
-            })
-            .then(res => {
-                this.allOutput()
             })
             .catch(() => {
                 this.setState({ failed: true })
             })
     }
     // Main logic for generating the random animal, and removing it from the list. Also loads the photo in a state
-    allOutput() {
-        console.log(this.state.newAnimalArr)
+    allOutput = () => {
         if (this.state.newAnimalArr.length !== 0) {
             let randomGen = Math.floor(Math.random() * this.state.newAnimalArr.length)
-            this.setState({ randomLog: randomGen }, () => {
-                if ((this.state.randomLog !== -1) && (!this.state.gotAnimal)) {
-                    let copiedArr = this.state.newAnimalArr.slice()
-                    copiedArr.splice(this.state.randomLog, 1)
+            let selectedAnimal = this.state.newAnimalArr[randomGen]
+            
+            let copiedArr = this.state.newAnimalArr.slice()
+            copiedArr.splice(randomGen, 1)
 
-                    this.setState((state, props) => ({
-                        randomAnimal: state.newAnimalArr[state.randomLog],
-                        gotAnimal: true,
-                        newAnimalArr: copiedArr
-                    }))
+            let image = (selectedAnimal.photos && selectedAnimal.photos.length > 0) 
+                ? selectedAnimal.photos[0].medium 
+                : ''
 
-                }
+            this.setState({
+                randomAnimal: selectedAnimal,
+                gotAnimal: true,
+                newAnimalArr: copiedArr,
+                image: image
             })
         }
-        if (this.state.randomAnimal.photos[0]) {
-            this.setState({ image: this.state.randomAnimal.photos[0].medium })
-        } else {
-            this.setState({ image: '' })
-        }
     }
-    // These are methods for each search feature. Might be possible to condense?
     submit = (e) => {
         e.preventDefault()
         this.callAxios()
@@ -98,7 +92,7 @@ class RandomAnimal extends React.Component {
     newAnimal = () => {
         this.setState({
             gotAnimal: false
-        }, this.allOutput())
+        }, () => this.allOutput())
     }
     render() {
         let animal = this.state.randomAnimal
@@ -109,7 +103,7 @@ class RandomAnimal extends React.Component {
                         <h1>{animal.name}</h1>
                         <h2>{animal.gender} {animal.species}</h2>
                         <h2>{animal.colors.primary} {animal.age} {animal.breeds.primary}</h2>
-                        <img src={animal.photos.length !== 0 ? animal.photos[0].medium : ''} alt='No Picture Available' />
+                        <img src={animal.photos && animal.photos.length !== 0 ? animal.photos[0].medium : ''} alt='No Picture Available' />
                         <h2>{animal.contact.address.city}, {animal.contact.address.state}</h2>
                         <a href={animal.url} target="_blank" rel="noopener noreferrer">Interested? Learn more here!</a>
                         <div className='info'>

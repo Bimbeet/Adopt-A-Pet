@@ -26,7 +26,6 @@ class OrgFinder extends React.Component {
             }
         })
             .then(response => {
-                console.log(response.data.organizations)
                 return response.data.organizations.filter(org => !!org.name)
             })
             .then(trueOrgs => {
@@ -34,7 +33,8 @@ class OrgFinder extends React.Component {
                     allOrgs: trueOrgs,
                     currentOrg: trueOrgs[0],
                     called: true,
-                    failed: false
+                    failed: false,
+                    orgIndex: 0
                 })
             })
             .catch(() => {
@@ -49,36 +49,33 @@ class OrgFinder extends React.Component {
         this.setState({ location: e.target.value })
     }
     nextOrg = () => {
-        (this.state.orgIndex < this.state.allOrgs.length - 1) ?
-            this.setState({
-                orgIndex: this.state.orgIndex += 1,
-                currentOrg: this.state.allOrgs[this.state.orgIndex]
-            }) :
-            this.setState({
-                orgIndex: 0,
-                currentOrg: this.state.allOrgs[this.state.orgIndex]
-            })
-
+        // Calculate the new index FIRST, then use it
+        let newIndex = this.state.orgIndex < this.state.allOrgs.length - 1
+            ? this.state.orgIndex + 1
+            : 0;
+        
+        this.setState({
+            orgIndex: newIndex,
+            currentOrg: this.state.allOrgs[newIndex]
+        })
     }
     prevOrg = () => {
-        (this.state.orgIndex === 0) ?
-            this.setState({
-                orgIndex: (this.state.allOrgs.length - 1),
-                currentOrg: this.state.allOrgs[this.state.orgIndex]
-            }) :
-            this.setState({
-                orgIndex: this.state.orgIndex -= 1,
-                currentOrg: this.state.allOrgs[this.state.orgIndex]
-            })
+        // Calculate the new index FIRST, then use it
+        let newIndex = this.state.orgIndex === 0
+            ? this.state.allOrgs.length - 1
+            : this.state.orgIndex - 1;
+        
+        this.setState({
+            orgIndex: newIndex,
+            currentOrg: this.state.allOrgs[newIndex]
+        })
     }
     getImage = () => {
-        if (this.state.currentOrg.photos.length !== 0) {
-            return <img src={this.state.currentOrg.photos[0].medium} alt='' />
+        if (this.state.currentOrg.photos && this.state.currentOrg.photos.length !== 0) {
+            return <img src={this.state.currentOrg.photos[0].medium} alt='Organization' />
         }
     }
     render() {
-        console.log(this.state.currentOrg)
-        console.log(this.state.allOrgs)
         let organization = this.state.currentOrg
         return (
             <div>
@@ -113,6 +110,5 @@ class OrgFinder extends React.Component {
         )
     }
 }
-
 
 export default OrgFinder
